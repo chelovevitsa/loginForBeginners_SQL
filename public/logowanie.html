@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logowanie</title>
+
+  <link rel="stylesheet" href="styles/milligram.css">
+  
+  <style>
+    body {
+      margin: 0;
+      display: grid;
+      place-items: center;
+      height: 100vh;
+    }
+
+    .loginForm {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <form class="loginForm" id="loginForm">
+    <fieldset>
+      <label for="login">Login</label>
+      <input type="text" id="login" required>
+
+      <label for="nameField">Hasło</label>
+      <input type="password" id="haslo" required>
+
+      <input class="button-primary" type="submit" value="Zaloguj">
+    </fieldset>
+  </form>
+
+
+  <script>
+    const form = document.getElementById('loginForm');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const data = {
+        login: document.getElementById('login').value,
+        haslo: document.getElementById('haslo').value
+      };
+
+      fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      })
+      .then(response => {
+        if (response.status === 200) {
+          document.location.replace('index.html');
+        } else {
+          alert('Logowanie nieudane');
+          form.reset();
+        }
+        
+      })
+    });
+  </script>
+
+</body>
+
+</html>
